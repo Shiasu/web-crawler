@@ -40,13 +40,14 @@ let getData = html => {
 
 /*Функция запускающая браузер nigthmare и выполняющая необходимые действия на странице.
   В случе успешной загрузки страницы и выполнения действий запишет результат в файл.
-  В противном случае выкинет ошибку в консоль.
+  В противном случае выкинет ошибку в консоль (и продолжит выполнение следующего запроса).
   В случае изменения исходного сайта необходимы изменения здесь.
   *Для отображения браузера необходимо изменить параметр show.
   **Параметр waitTimeout позволяет установить время ожидания загрузки страницы до выбрасывания ошибки.
 */
 const getOrgContacts = async orgNum => {
-	console.log(`Now checking ${orgNum}`);
+	const percentOfComplet = (arrOfNums.indexOf(orgNum) + 1)/arrOfNums.length * 100;
+	console.log(`Now checking ${orgNum} / ${percentOfComplet}%`);
 	const nightmare =  new Nightmare({ show: false, waitTimeout: 10000 });
 
 	try {
