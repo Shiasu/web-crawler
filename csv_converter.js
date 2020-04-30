@@ -1,9 +1,21 @@
 const fs = require("fs");
-const { Parser } = require("json2csv");
+const converter = require('json-2-csv');
 
-const data = JSON.parse(fs.readFileSync("result.json", "utf-8"));
-console.log(data);
 
-const json2csvParser = new Parser();
-const csv = json2csvParser.parse();
-console.log(csv);
+const myObj = JSON.parse(fs.readFileSync("result.json", "utf-8"));
+
+let json2csvCallback = function (err, csv) {
+	csvWithBom = "\uFEFF" + csv;
+    if (err) throw err;
+    fs.writeFile("result.csv", csvWithBom, "utf8", function(err) {
+      if (err) {
+        console.log("Some error occured - file either not saved or corrupted file saved.");
+      } else {
+        console.log("It\'s saved");
+      }
+    });
+};
+
+converter.json2csv(myObj, json2csvCallback, {
+  prependHeader: true
+});
